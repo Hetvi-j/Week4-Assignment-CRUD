@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@gmail.com",
+      "phone": "9876543210",
+      "password": "admin123",
+      "role": "editor",
+      "isDeleted": false
+    },
+    {
+      "id": 1779532064006,
+      "name": "Hetvi",
+      "email": "hetvi@gmail.com",
+      "phone": "9876543211",
+      "password": "hetvi123",
+      "role": "user",
+      "isDeleted": false
+    },
+    {
+      "id": 1779555488958,
+      "name": "test",
+      "email": "test@gmail.com",
+      "phone": "6754683096",
+      "password": "3bjwfdi",
+      "role": "user",
+      "isDeleted": true
+    }
+  ]
+}
