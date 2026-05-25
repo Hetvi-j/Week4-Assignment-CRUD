@@ -1,17 +1,12 @@
 import { useForm } from "react-hook-form";
-
 import { useNavigate } from "react-router-dom";
-
 import toast from "react-hot-toast";
-
 import api from "../services/api";
-
 import Layout from "../components/Layout";
 
 const UserFormPage = () => {
 
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -22,22 +17,13 @@ const UserFormPage = () => {
 
     try {
 
-      await api.post(
-        "/",
-        data
-      );
-
-      toast.success(
-        "User Added Successfully"
-      );
-
+      await api.post("/",data);
+      toast.success("User Added Successfully");
       navigate("/users");
 
     } catch (error) {
 
-      toast.error(
-        error.response.data.message
-      );
+      toast.error(error.response.data.message);
     }
   };
 
@@ -61,8 +47,7 @@ const UserFormPage = () => {
               type="text"
               placeholder="Name"
               {...register("name", {
-                required:
-                  "Name is required"
+                required:"Name is required"
               })}
               className="w-full border p-3 rounded-lg"
             />

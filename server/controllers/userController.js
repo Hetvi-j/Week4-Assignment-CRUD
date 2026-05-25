@@ -1,13 +1,5 @@
-import { readData,
-    writeData
-} from "../utils/helper.js";
-
-import {
-    validateUser,
-    validatePartialUser
-} from "../utils/validation.js";
-
-
+import { readData, writeData } from "../utils/helper.js";
+import { validateUser, validatePartialUser } from "../utils/validation.js";
 
 // STATIC LOGIN
 export const loginUser = (
@@ -32,23 +24,27 @@ export const loginUser = (
             });
         }
 
-        // Static Credentials
-        if (
-            email !== "admin@gmail.com" ||
-            password !== "admin123"
-        ) {
+        // Authenticate against stored users
+        const data = readData();
 
+        const user = data.users.find(
+            (u) => u.email === email && u.password === password && !u.isDeleted
+        );
+
+        if (!user) {
             return res.status(401).json({
                 success: false,
-                message:
-                    "Invalid Credentials"
+                message: "Invalid Credentials"
             });
         }
 
+        // Don't send password back
+        const { password: _pw, ...userSafe } = user;
+
         res.status(200).json({
             success: true,
-            message:
-                "Login Successful"
+            message: "Login Successful",
+            user: userSafe
         });
 
     } catch (error) {
@@ -64,21 +60,12 @@ export const loginUser = (
 
 
 // GET ALL USERS
-export const getUsers = (
-    req,
-    res
-) => {
-
+export const getUsers = (req,res) => {
     try {
-
         const data = readData();
 
         // Remove Soft Deleted Users
-        const users =
-            data.users.filter(
-                (user) =>
-                    !user.isDeleted
-            );
+        const users = data.users.filter((user) => !user.isDeleted);
 
         res.status(200).json({
             success: true,
@@ -86,7 +73,6 @@ export const getUsers = (
         });
 
     } catch (error) {
-
         res.status(500).json({
             success: false,
             message:
@@ -95,29 +81,14 @@ export const getUsers = (
     }
 };
 
-
-
 // GET SINGLE USER
-export const getSingleUser = (
-    req,
-    res
-) => {
-
+export const getSingleUser = (req,res) => {
     try {
-
         const { id } = req.params;
-
         const data = readData();
-
-        const user =
-            data.users.find(
-                (u) =>
-                    u.id == id &&
-                    !u.isDeleted
-            );
+        const user = data.users.find((u) => u.id == id && !u.isDeleted );
 
         if (!user) {
-
             return res.status(404).json({
                 success: false,
                 message:
@@ -143,23 +114,15 @@ export const getSingleUser = (
 
 
 // ADD USER
-export const addUser = (
-    req,
-    res
-) => {
-
+export const addUser = (req,res) => {
     try {
-
         // Validation
-        const validation =
-            validateUser(req.body);
+        const validation = validateUser(req.body);
 
         if (!validation.valid) {
-
             return res.status(400).json({
                 success: false,
-                errors:
-                    validation.errors
+                errors: validation.errors
             });
         }
 
@@ -173,7 +136,7 @@ export const addUser = (
 
         const data = readData();
 
-        // Duplicate Email Check
+        // Check if user with this email exists
         const existingUser =
             data.users.find(
                 (u) =>
@@ -181,15 +144,31 @@ export const addUser = (
             );
 
         if (existingUser) {
+            // If user exists and is deleted, restore and update them
+            if (existingUser.isDeleted) {
+                existingUser.name = name;
+                existingUser.phone = phone;
+                existingUser.password = password;
+                existingUser.role = role;
+                existingUser.isDeleted = false;
 
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Email already exists"
-            });
+                writeData(data);
+
+                return res.status(201).json({
+                    success: true,
+                    message: "User Added Successfully",
+                    user: existingUser
+                });
+            } else {
+                // User exists and is not deleted, reject
+                return res.status(400).json({
+                    success: false,
+                    message: "Email already exists"
+                });
+            }
         }
 
-        // Create User
+        // Create new user
         const newUser = {
             id: Date.now(),
             name,
@@ -350,8 +329,7 @@ export const deleteUser = (
 
         res.status(200).json({
             success: true,
-            message:
-                "User Deleted Successfully"
+            message: "User Deleted Successfully"
         });
 
     } catch (error) {

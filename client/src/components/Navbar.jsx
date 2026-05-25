@@ -1,31 +1,36 @@
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-
   const navigate = useNavigate();
-
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-  const handleLogout = () => {
+  const user = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user")) || null;
+    } catch (e) {
+      return null;
+    }
+  })();
 
-    localStorage.removeItem("isLoggedIn");
-
-    navigate("/");
-  };
+  const initials = user && user.name
+    ? user.name.split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase()
+    : "U";
 
   return (
-    <div className="bg-slate-900 text-white px-8 py-4 flex justify-between items-center shadow-lg">
-
-      <h1 className="text-2xl font-bold tracking-wide">
-        User Management
-      </h1>
+    <div className="bg-slate-900 text-white px-8 py-6 flex items-center justify-between shadow-lg">
+      <div className="flex items-center gap-6">
+        <h1 className="text-4xl font-extrabold tracking-wide">
+          User Management System
+        </h1>
+      </div>
 
       {isLoggedIn && (
         <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition"
+          onClick={() => navigate("/profile")}
+          className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold"
+          aria-label="Profile"
         >
-          Logout
+          {initials}
         </button>
       )}
     </div>

@@ -1,20 +1,8 @@
-import {
-  useEffect
-} from "react";
-
-import {
-  useNavigate,
-  useParams
-} from "react-router-dom";
-
-import {
-  useForm
-} from "react-hook-form";
-
+import {useEffect} from "react";
+import {useNavigate,useParams} from "react-router-dom";
+import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
-
 import api from "../services/api";
-
 import Layout from "../components/Layout";
 
 const EditUser = () => {

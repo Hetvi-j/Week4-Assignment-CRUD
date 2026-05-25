@@ -1,17 +1,10 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
-
-import {
-  Toaster
-} from "react-hot-toast";
-
+import {BrowserRouter,Routes,Route} from "react-router-dom";
+import {Toaster} from "react-hot-toast";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import UserFormPage from "./pages/UserFormPage";
 import EditUser from "./pages/EditUser";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 const App = () => {
@@ -19,62 +12,40 @@ const App = () => {
   return (
 
     <BrowserRouter>
-
       <Toaster position="top-right" />
-
       <Routes>
 
-        {/* LOGIN */}
+        <Route path="/" element={<Login />} />
+        <Route path="/users" element={
 
-        <Route
-          path="/"
-          element={<Login />}
-        />
-
-
-
-        {/* USERS */}
-
-        <Route
-          path="/users"
-          element={
             <ProtectedRoute>
-
               <Users />
-
             </ProtectedRoute>
-          }
+        }
         />
+        <Route path="/add-user" element={
 
-
-
-        {/* ADD USER */}
-
-        <Route
-          path="/add-user"
-          element={
             <ProtectedRoute>
-
               <UserFormPage />
-
             </ProtectedRoute>
           }
         />
 
+        <Route path="/edit-user/:id" element={
 
-
-        {/* EDIT USER */}
-
-        <Route
-          path="/edit-user/:id"
-          element={
             <ProtectedRoute>
-
               <EditUser />
-
             </ProtectedRoute>
           }
         />
+
+        <Route path="/profile" element={
+          
+          <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
       </Routes>
     </BrowserRouter>
   );

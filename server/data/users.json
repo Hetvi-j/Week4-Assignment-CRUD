@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "name": "Admin User",
+      "name": "Admin123",
       "email": "admin@gmail.com",
       "phone": "9876543210",
       "password": "admin123",
@@ -25,7 +25,7 @@
       "phone": "6754683096",
       "password": "3bjwfdi",
       "role": "user",
-      "isDeleted": true
+      "isDeleted": false
     }
   ]
 }

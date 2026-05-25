@@ -2,104 +2,64 @@ export function validateUser(body) {
 
     const errors = [];
 
-    // Name Validation
+    /////////////////  Name Validation
     if (!body.name) {
 
         errors.push("Name is required");
 
-    } else if (
-        typeof body.name !== "string"
-    ) {
+    } else if (typeof body.name !== "string") {
 
-        errors.push(
-            "Name must be string"
-        );
+        errors.push("Name must be string");
 
-    } else if (
-        body.name.trim().length < 2
-    ) {
+    } else if (body.name.trim().length < 2) {
 
-        errors.push(
-            "Name must be at least 2 characters"
-        );
+        errors.push("Name must be at least 2 characters");
     }
 
-    // Email Validation
-    const emailRegex =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    ///////////////// Email Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!body.email) {
 
-        errors.push(
-            "Email is required"
-        );
+        errors.push("Email is required");
 
-    } else if (
-        !emailRegex.test(body.email)
-    ) {
+    } else if (!emailRegex.test(body.email)) {
 
-        errors.push(
-            "Invalid email"
-        );
+        errors.push("Invalid email");
     }
 
-    // Phone Validation
-    const phoneRegex =
-        /^[0-9]{10}$/;
+    ///////////////// Phone Validation
+    const phoneRegex = /^[0-9]{10}$/;
 
     if (!body.phone) {
 
-        errors.push(
-            "Phone is required"
-        );
+        errors.push("Phone is required");
 
-    } else if (
-        !phoneRegex.test(body.phone)
-    ) {
+    } else if (!phoneRegex.test(body.phone)) {
 
-        errors.push(
-            "Phone must be 10 digits"
-        );
+        errors.push("Phone must be 10 digits");
     }
 
-    // Password Validation
+    ///////////////// Password Validation
     if (!body.password) {
 
-        errors.push(
-            "Password is required"
-        );
+        errors.push("Password is required");
 
-    } else if (
-        body.password.length < 6
-    ) {
+    } else if (body.password.length < 6) {
 
-        errors.push(
-            "Password must be at least 6 characters"
-        );
+        errors.push("Password must be at least 6 characters");
     }
 
-    // Role Validation
-    const allowedRoles = [
-        "admin",
-        "user",
-        "editor"
-    ];
+    ///////////////// Role Validation
+    const allowedRoles = ["admin","user","editor"];
 
     if (!body.role) {
 
-        errors.push(
-            "Role is required"
-        );
+        errors.push("Role is required");
 
-    } else if (
-        !allowedRoles.includes(
-            body.role
-        )
-    ) {
+    } else if (!allowedRoles.includes(body.role)) {
 
-        errors.push(
-            "Role must be admin, user, or editor"
-        );
+        errors.push("Role must be admin, user, or editor");
     }
 
     return {
@@ -109,104 +69,69 @@ export function validateUser(body) {
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////
+//******************************************************************************** */
+//                            UPDATE USER VALIDATION
+//******************************************************************************** */
+//////////////////////////////////////////////////////////////////////////////////////
 
-// UPDATE USER VALIDATION
-export function validatePartialUser(
-    body
-) {
+
+export function validatePartialUser(body) {
 
     const errors = [];
 
-    // Name Validation
+    /////////////////  Name Validation
     if (body.name !== undefined) {
 
-        if (
-            typeof body.name !== "string"
-        ) {
+        if (typeof body.name !== "string") {
 
-            errors.push(
-                "Name must be string"
-            );
+            errors.push("Name must be string");
 
-        } else if (
-            body.name.trim().length < 2
-        ) {
+        } else if (body.name.trim().length < 2) {
 
-            errors.push(
-                "Name must be at least 2 characters"
-            );
+            errors.push("Name must be at least 2 characters");
         }
     }
 
-    // Email Validation
+    /////////////////// Email Validation
     if (body.email !== undefined) {
 
-        const emailRegex =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (
-            !emailRegex.test(
-                body.email
-            )
-        ) {
+        if (!emailRegex.test(body.email)) {
 
-            errors.push(
-                "Invalid email"
-            );
+            errors.push("Invalid email");
         }
     }
 
-    // Phone Validation
+    /////////////////  Phone Validation
     if (body.phone !== undefined) {
 
-        const phoneRegex =
-            /^[0-9]{10}$/;
+        const phoneRegex = /^[0-9]{10}$/;
 
-        if (
-            !phoneRegex.test(
-                body.phone
-            )
-        ) {
+        if (!phoneRegex.test(body.phone)) {
 
-            errors.push(
-                "Phone must be 10 digits"
-            );
+            errors.push("Phone must be 10 digits");
         }
     }
 
-    // Password Validation
-    if (
-        body.password !== undefined
-    ) {
+    ///////////////// Password Validation
+    if (body.password !== undefined) {
 
-        if (
-            body.password.length < 6
-        ) {
+        if (body.password.length < 6) {
 
-            errors.push(
-                "Password must be at least 6 characters"
-            );
+            errors.push("Password must be at least 6 characters");
         }
     }
 
-    // Role Validation
+    /////////////////  Role Validation
     if (body.role !== undefined) {
 
-        const allowedRoles = [
-            "admin",
-            "user",
-            "editor"
-        ];
+        const allowedRoles = ["admin","user","editor"];
+        
+        if (!allowedRoles.includes(body.role)) {
 
-        if (
-            !allowedRoles.includes(
-                body.role
-            )
-        ) {
-
-            errors.push(
-                "Invalid role"
-            );
+            errors.push("Invalid role");
         }
     }
 

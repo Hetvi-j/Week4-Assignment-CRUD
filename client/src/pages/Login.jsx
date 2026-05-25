@@ -1,11 +1,7 @@
 import { useForm } from "react-hook-form";
-
 import { useNavigate } from "react-router-dom";
-
 import toast from "react-hot-toast";
-
 import api from "../services/api";
-
 import Layout from "../components/Layout";
 
 const Login = () => {
@@ -22,11 +18,7 @@ const Login = () => {
 
     try {
 
-      const response =
-        await api.post(
-          "/login",
-          data
-        );
+      const response = await api.post("/login",data);
 
       if (response.data.success) {
 
@@ -35,18 +27,20 @@ const Login = () => {
           true
         );
 
-        toast.success(
-          "Login Successful"
-        );
+        // store user returned from server (if provided)
+        if (response.data.user) {
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+        } else {
+          localStorage.setItem("user", JSON.stringify({ name: "User", email: data.email, role: "user" }));
+        }
 
+        toast.success("Login Successful");
         navigate("/users");
       }
 
     } catch (error) {
 
-      toast.error(
-        error.response.data.message
-      );
+      toast.error(error.response.data.message);
     }
   };
 
